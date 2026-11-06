@@ -1,4 +1,4 @@
-import { EventEmitter as VSEventEmitter, Event } from 'vscode';
+import { EventEmitter as VSEventEmitter } from 'vscode';
 
 // ==================== EventEmitter Mock ====================
 
@@ -216,7 +216,7 @@ export const workspace = {
   getWorkspaceFolder: () => null,
   fs: {
     stat: () => Promise.reject({ name: 'FileSystemError' }),
-    readFile: () => Promise.resolve(Buffer.from('')),
+    readFile: () => Promise.resolve(new Uint8Array()),
     writeFile: () => Promise.resolve(),
     mkdir: () => Promise.resolve(),
     readdir: () => Promise.resolve([]),
@@ -239,7 +239,7 @@ export const commands = {
 };
 
 class DisposableClass {
-  static from(...disposableLike: { dispose: () => any }[]) {
+  static from(..._disposableLike: { dispose: () => any }[]) {
     const cls = class extends DisposableClass {
       constructor() { super(() => {}); }
     };
@@ -247,7 +247,7 @@ class DisposableClass {
   }
   constructor(_dispose: () => any) {}
   dispose() {}
-  combine(other: DisposableClass) { return this; }
+  combine(_other: DisposableClass) { return this; }
 }
 
 export { DisposableClass as Disposable };
