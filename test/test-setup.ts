@@ -94,8 +94,13 @@ vi.mock('@bodil/opt', () => {
 });
 
 // Mock 'path' module (node:path)
-vi.mock('path', () => {
-  const actualPath = require('path');
+vi.mock('path', async (importOriginal) => {
+  const actualPath = await importOriginal<{
+    basename: (path: string, suffix?: string) => string;
+    join: (...paths: string[]) => string;
+    relative: (from: string, to: string) => string;
+    sep: string;
+  }>();
   return {
     ...actualPath,
     basename: (p: string, ext?: string) => actualPath.basename(p, ext),
